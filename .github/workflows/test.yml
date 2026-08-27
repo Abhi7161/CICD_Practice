@@ -1,33 +1,71 @@
 # Name is the name of the github workflow
+
 # GitHub will display this name under the Actions tab.
+
 name : Github actions demo
+
 # run-name = name of a specific execution/run of that workflow.
+
 # The GitHub user who triggered the workflow.
+
 run-name: ${{github.actor}} is testing out github action
+
 # on: = When should my workflow run?
+
 on: [push]
+
 # jobs: = What should my workflow do?
+
 # This defines the work that the workflow needs to perform.
+
 # Explore-Github-Actions is simply the job ID.
+
 # runs-on tells GitHub Actions which machine/operating system should execute a job.
+
 # GitHub provides a temporary machine called a runner.
+
 jobs:
+
     Explore-Github-Actions:
+
         runs-on: ubuntu-latest
+
         steps:
+
         # Each step performs some action.
+
         # run: means Execute this shell command on the runner.
+
         - run: echo "The job was automatically triggered by the ${{github.event_name}} event."
+
         - run: echo "This job is now running on the ${{runner.os}} server hosted by github."
+
         - run: echo "The name of your branch is ${{github.ref}} and your repository is ${{github.repository}}"
+
         # This gives the step a human-readable name.
+
         - name: Check out repository code
+
         # Use an existing GitHub Action.
+
           uses: actions/checkout@v4
+
         - run : echo "The ${{github.repository}} repository has been cloned to the runner."
+
         - run : echo "The workflow is now ready to test your code on the runner."
+
         - name: List files in the repository
+
           run: ls ${{github.workspace}}
-        - run: echo "This job status is ${{job.status}}"
 
+    # This job runs after Explore-Github-Actions is completed.
 
+    Show-Job-Status:
+
+        needs: Explore-Github-Actions
+
+        runs-on: ubuntu-latest
+
+        steps:
+
+        - run: echo "The job status is ${{needs.Explore-Github-Actions.result}}"
