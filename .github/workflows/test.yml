@@ -11,8 +11,12 @@ name : Github actions demo
 run-name: ${{github.actor}} is testing out github action
 
 # on: = When should my workflow run?
-
-on: [push]
+# triggeres the event on push to master or main branch
+on:
+  push:
+    branches:
+      - master
+      - main
 
 # jobs: = What should my workflow do?
 
@@ -25,8 +29,9 @@ on: [push]
 # GitHub provides a temporary machine called a runner.
 
 jobs:
-
+    # Name of the job
     Explore-Github-Actions:
+        # specifies the type of the environment on which this workflow would runs and the machine on which these are going to run are called runner
 
         runs-on: ubuntu-latest
 
@@ -53,7 +58,7 @@ jobs:
         - run : echo "The ${{github.repository}} repository has been cloned to the runner."
 
         - run : echo "The workflow is now ready to test your code on the runner."
-
+          # It is for metadata
         - name: List files in the repository
 
           run: ls ${{github.workspace}}
