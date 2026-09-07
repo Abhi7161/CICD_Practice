@@ -1,24 +1,30 @@
-name : "Send email after workflow"
+name: "Send email after workflow"
+
 on:
-    workflow_dispatch:
+  workflow_dispatch:
+
 jobs:
-    send_email:
-        runs-on: ubuntu-latest
-        steps:
-            - name: "Checkout code"
-              uses: actions/checkout@v4
-            - name: "Setup python environment."
-              uses: actions/setup-python@v2
-              with: 
-                    python-version: 3.x
-            - name: "Install dependencies"
-              run : python -m pip install --upgrade pip
-                    pip install smtplib email
-            - name: "Send email"
-              run : python script.py
-              env:
-                WORKFLOW_NAME: ${{github.workflow}}
-                REPOSITORY_NAME: ${{github.repository}}
-                SENDER_PASSWORD: ${{secrets.SENDER_PASSWORD}}
-                RECEIVER_EMAIL: ${{secrets.RECEIVER_EMAIL}}
-                WORKFLOW_RUN_ID: ${{github.run_id}}
+  send_email:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4
+
+      - name: "Setup python environment"
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: "Install dependencies"
+        run: |
+          python -m pip install --upgrade pip
+
+      - name: "Send email"
+        run: python script.py
+        env:
+          WORKFLOW_NAME: ${{ github.workflow }}
+          REPOSITORY_NAME: ${{ github.repository }}
+          SENDER_PASSWORD: ${{ secrets.SENDER_PASSWORD }}
+          RECEIVER_EMAIL: ${{ secrets.RECEIVER_EMAIL }}
+          WORKFLOW_RUN_ID: ${{ github.run_id }}
